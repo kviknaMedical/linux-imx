@@ -1215,6 +1215,9 @@
 	no-1-8-v;
 	enable-sdio-wakeup;
 	keep-power-in-suspend;
+	assigned-clocks = <&clks IMX7D_USDHC2_ROOT_CLK>;
+	assigned-clock-rates = <25000000>;
+	max-frequency = <25000000>;
 	status = "okay";
 };
 
