@@ -7,6 +7,7 @@
 #include "imx7d-var-som.dtsi"
 #include "imx7d-var-som-emmc.dtsi"
 #include "imx7d-var-som-mx7customboard.dtsi"
+#include "imx7d-var-som-kvikna.dtsi"
 
 / {
 	model = "Variscite VAR-SOM-MX7 with eMMC & WM8904 on VAR-MX7CustomBoard";

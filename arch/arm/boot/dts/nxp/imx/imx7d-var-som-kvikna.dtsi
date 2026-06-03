@@ -1,0 +1,291 @@
+// SPDX-License-Identifier: GPL-2.0+ OR MIT
+//
+// Kvikna VAR-SOM-MX7 board customisation.
+// Ported from the km-amp-dunfell effective DTS diff.
+
+/ {
+	/delete-node/ backlight;
+	/delete-node/ sound;
+	/delete-node/ gpio-keys;
+	/delete-node/ pxp_v4l2_out;
+};
+
+&adc1 {
+	/delete-property/ vref-supply;
+	status = "disabled";
+};
+
+&adc2 {
+	status = "disabled";
+};
+
+&csi1 {
+	status = "disabled";
+	/delete-property/ csi-mux-mipi;
+	/delete-property/ fsl,mipi-mode;
+	/delete-node/ port;
+};
+
+&ecspi1 {
+	/delete-node/ ads7846@0;
+};
+
+&ecspi3 {
+	fsl,spi-num-chipselects = <1>;
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&pinctrl_ecspi3>;
+	cs-gpios = <&gpio6 22 GPIO_ACTIVE_LOW>;
+	status = "okay";
+
+	ads8688@0 {
+		compatible = "ti,ads8688";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+	};
+};
+
+&flexcan2 {
+	status = "disabled";
+};
+
+&i2c1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c1>;
+	/delete-property/ pinctrl-1;
+	/delete-property/ scl-gpios;
+	/delete-property/ sda-gpios;
+};
+
+&i2c2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c2>;
+	/delete-property/ pinctrl-1;
+	/delete-property/ scl-gpios;
+	/delete-property/ sda-gpios;
+	/delete-node/ audio-codec@1a;
+	/delete-node/ wm8731@1a;
+	/delete-node/ rtc@68;
+	/delete-node/ ov5640_mipi@3c;
+};
+
+&i2c3 {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c3>;
+	status = "okay";
+
+	pca9530@60 {
+		compatible = "nxp,pca9531";
+		reg = <0x60>;
+
+		green-power {
+			label = "pca:green:power";
+			type = <1>;
+		};
+	};
+
+	rv8263@51 {
+		compatible = "microcrystal,rv8263";
+		reg = <0x51>;
+	};
+};
+
+&i2c4 {
+	status = "okay";
+	/delete-property/ clock-frequency;
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ pinctrl-1;
+	/delete-property/ scl-gpios;
+	/delete-property/ sda-gpios;
+	/delete-node/ ft5x06_ts@38;
+};
+
+&lcdif {
+	status = "disabled";
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ display;
+	/delete-node/ display0;
+};
+
+&mipi_csi {
+	status = "disabled";
+	/delete-property/ clock-frequency;
+	/delete-node/ port;
+};
+
+&pcie {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ reset-gpio;
+	status = "disabled";
+};
+
+&pcie_phy {
+	status = "okay";
+};
+
+&pwm2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm2>;
+	status = "okay";
+};
+
+&pwm3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm3>;
+	status = "okay";
+};
+
+&sai1 {
+	#sound-dai-cells = <0>;
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ pinctrl-1;
+	/delete-property/ assigned-clocks;
+	/delete-property/ assigned-clock-parents;
+	/delete-property/ assigned-clock-rates;
+	/delete-property/ fsl,sai-mclk-direction-output;
+	status = "disabled";
+};
+
+&sai2 {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ assigned-clocks;
+	/delete-property/ assigned-clock-parents;
+	/delete-property/ assigned-clock-rates;
+	status = "disabled";
+};
+
+&snvs_poweroff {
+	status = "disabled";
+};
+
+&snvs_pwrkey {
+	status = "disabled";
+};
+
+&uart5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart5>;
+	assigned-clocks = <&clks IMX7D_UART5_ROOT_SRC>;
+	assigned-clock-parents = <&clks IMX7D_OSC_24M_CLK>;
+	/* Matches the km-amp-dunfell effective DTB: no RX DMA channel. */
+	dma-names = "", "tx";
+	status = "okay";
+};
+
+&uart6 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart6>;
+	assigned-clocks = <&clks IMX7D_UART6_ROOT_SRC>;
+	assigned-clock-parents = <&clks IMX7D_OSC_24M_CLK>;
+	status = "okay";
+};
+
+&uart7 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart7>;
+	assigned-clocks = <&clks IMX7D_UART7_ROOT_SRC>;
+	assigned-clock-parents = <&clks IMX7D_OSC_24M_CLK>;
+	status = "okay";
+};
+
+&usbotg1 {
+	dr_mode = "peripheral";
+};
+
+&usdhc1 {
+	enable-sdio-wakeup;
+	assigned-clocks = <&clks IMX7D_USDHC1_ROOT_CLK>;
+	assigned-clock-rates = <25000000>;
+	max-frequency = <25000000>;
+};
+
+&reg_usb_otg1_vbus {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ gpio;
+	/delete-property/ enable-active-high;
+};
+
+&reg_usb_otg2_vbus {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ gpio;
+	/delete-property/ enable-active-high;
+};
+
+&reg_hsic_hub_pwr_on {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ gpio;
+	/delete-property/ enable-active-high;
+};
+
+&reg_hsic_hub_connect {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+	/delete-property/ gpio;
+	/delete-property/ enable-active-high;
+};
+
+&iomuxc {
+	pinctrl_ecspi3: ecspi3grp {
+		fsl,pins = <
+			MX7D_PAD_SAI2_TX_SYNC__ECSPI3_MISO	0x2
+			MX7D_PAD_SAI2_TX_BCLK__ECSPI3_MOSI	0x2
+			MX7D_PAD_SAI2_RX_DATA__ECSPI3_SCLK	0x2
+			MX7D_PAD_SAI2_TX_DATA__GPIO6_IO22	0x2
+		>;
+	};
+
+	pinctrl_i2c3: i2c3grp {
+		fsl,pins = <
+			MX7D_PAD_I2C3_SDA__I2C3_SDA		0x4000003f
+			MX7D_PAD_I2C3_SCL__I2C3_SCL		0x4000003f
+		>;
+	};
+
+	pinctrl_i2c3_gpio: i2c3gpiogrp {
+		fsl,pins = <
+			MX7D_PAD_I2C3_SDA__GPIO4_IO13		0x4000007f
+			MX7D_PAD_I2C3_SCL__GPIO4_IO12		0x4000007f
+		>;
+	};
+
+	pinctrl_uart5: uart5grp {
+		fsl,pins = <
+			MX7D_PAD_SAI1_RX_DATA__UART5_DCE_RX	0x79
+			MX7D_PAD_I2C4_SDA__UART5_DCE_TX		0x79
+		>;
+	};
+
+	pinctrl_uart6: uart6grp {
+		fsl,pins = <
+			MX7D_PAD_EPDC_DATA09__UART6_DCE_TX	0x79
+			MX7D_PAD_EPDC_DATA08__UART6_DCE_RX	0x79
+		>;
+	};
+
+	pinctrl_uart7: uart7grp {
+		fsl,pins = <
+			MX7D_PAD_EPDC_DATA13__UART7_DCE_TX	0x79
+			MX7D_PAD_EPDC_DATA12__UART7_DCE_RX	0x79
+		>;
+	};
+
+	pinctrl_pwm3: pwm3grp {
+		fsl,pins = <
+			MX7D_PAD_GPIO1_IO10__PWM3_OUT		0x30
+		>;
+	};
+};
+
+&pinctrl_pwm2 {
+	fsl,pins = <
+		MX7D_PAD_LPSR_GPIO1_IO02__PWM2_OUT	0x30
+	>;
+};
