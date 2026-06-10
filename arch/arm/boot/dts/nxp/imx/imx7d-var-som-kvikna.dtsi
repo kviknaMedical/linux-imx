@@ -232,6 +232,33 @@
 	/delete-property/ enable-active-high;
 };
 
+
+/* Keep ENET ownership/reset behaviour aligned with the old kernel DTB.
+ * Do not hog the PHY reset pins; let the PHY reset-gpios own them.
+ */
+&fec1 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&pinctrl_enet1>, <&pinctrl_enet1_rst>, <&pinctrl_enet2_rst>;
+	pinctrl-1 = <&pinctrl_enet1_sleep>, <&pinctrl_enet1_rst_sleep>, <&pinctrl_enet2_rst_sleep>;
+	status = "okay";
+};
+
+&fec2 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&pinctrl_enet2>;
+	pinctrl-1 = <&pinctrl_enet2_sleep>;
+	status = "okay";
+};
+
+/* Old kernel usdhc1_gpiogrp also owns SD1_RESET_B. */
+&pinctrl_usdhc1_gpio {
+	fsl,pins = <
+		MX7D_PAD_SD1_CD_B__GPIO5_IO0		0x59 /* CD */
+		MX7D_PAD_GPIO1_IO08__SD1_VSELECT	0x59 /* VSELECT */
+		MX7D_PAD_SD1_RESET_B__SD1_RESET_B	0x59 /* SD reset */
+	>;
+};
+
 &iomuxc {
 
 	pinctrl-names = "default";
@@ -239,8 +266,6 @@
 
 	pinctrl_hog_1: hoggrp-1 {
 		fsl,pins = <
-			MX7D_PAD_SD2_RESET_B__GPIO5_IO11	0x59		/* ethphy0 reset */
-			MX7D_PAD_UART2_TX_DATA__GPIO4_IO3	0x59		/* ethphy1 reset */
 			MX7D_PAD_GPIO1_IO12__GPIO1_IO12		0x59		/* GAUGE_GPOUT */
 			MX7D_PAD_SAI1_RX_BCLK__GPIO6_IO17	0x4000007f	/* SCL */
 
@@ -324,7 +349,7 @@
 
 &iomuxc_lpsr {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_hog_2>;
+	pinctrl-0 = <&pinctrl_hog_2 &pinctrl_usbotg2_pwr>;
 
 	pinctrl_hog_2: hoggrp-2 {
 		fsl,pins = <
