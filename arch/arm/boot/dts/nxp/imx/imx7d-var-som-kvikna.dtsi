@@ -233,6 +233,40 @@
 };
 
 &iomuxc {
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hog_1>;
+
+	pinctrl_hog_1: hoggrp-1 {
+		fsl,pins = <
+			MX7D_PAD_GPIO1_IO14__GPIO1_IO14		0x80000000	/* bt reg on */
+			MX7D_PAD_SD2_RESET_B__GPIO5_IO11	0x59		/* ethphy0 reset */
+			MX7D_PAD_UART2_TX_DATA__GPIO4_IO3	0x59		/* ethphy1 reset */
+			MX7D_PAD_GPIO1_IO12__GPIO1_IO12		0x59		/* GAUGE_GPOUT */
+			MX7D_PAD_SAI1_RX_BCLK__GPIO6_IO17	0x4000007f	/* SCL */
+
+			/* 31438-2 I/O / old-kernel hog pins */
+			MX7D_PAD_LCD_DATA01__GPIO3_IO6		0x59		/* SOM pin 23 */
+			MX7D_PAD_EPDC_DATA07__GPIO2_IO7		0x14		/* SOM pin 19 */
+			MX7D_PAD_EPDC_DATA06__GPIO2_IO6		0x59		/* SOM pin 21 */
+			MX7D_PAD_EPDC_BDR0__GPIO2_IO28		0x14		/* SOM pin 73 */
+			MX7D_PAD_EPDC_BDR1__GPIO2_IO29		0x59		/* SOM pin 75 */
+			MX7D_PAD_SD1_WP__GPIO5_IO1		0x59		/* SOM pin 163 */
+			MX7D_PAD_I2C4_SDA__GPIO4_IO15		0x14		/* CHARGER_CE */
+			MX7D_PAD_GPIO1_IO11__GPIO1_IO11		0x59		/* ADAPTER_n */
+			MX7D_PAD_LCD_DATA22__GPIO3_IO27		0x59		/* SOM pin 20 */
+			MX7D_PAD_EPDC_DATA01__GPIO2_IO1		0x14		/* FPGA_USB_RST_n */
+			MX7D_PAD_EPDC_DATA04__GPIO2_IO4		0x14		/* ADC_PD_n */
+			MX7D_PAD_LCD_DATA23__GPIO3_IO28		0x14		/* LED_RST */
+			MX7D_PAD_EPDC_DATA03__GPIO2_IO3		0x14		/* V_ISO_EN */
+			MX7D_PAD_EPDC_DATA02__GPIO2_IO2		0x14		/* FPGA_USB_SUSPEND_n */
+			MX7D_PAD_EPDC_DATA00__GPIO2_IO0		0x14		/* FPGA_RESET_n */
+			MX7D_PAD_EPDC_DATA05__GPIO2_IO5		0x59		/* PB_IN */
+			MX7D_PAD_LCD_DATA21__GPIO3_IO26		0x59		/* BRACKET_n */
+			MX7D_PAD_LCD_DATA20__GPIO3_IO25		0x59		/* SRESET_n */
+		>;
+	};
+
 	pinctrl_ecspi3: ecspi3grp {
 		fsl,pins = <
 			MX7D_PAD_SAI2_TX_SYNC__ECSPI3_MISO	0x2
@@ -288,4 +322,28 @@
 	fsl,pins = <
 		MX7D_PAD_LPSR_GPIO1_IO02__PWM2_OUT	0x30
 	>;
+};
+
+&iomuxc_lpsr {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hog_2 &pinctrl_wdog>;
+
+	pinctrl_hog_2: hoggrp-2 {
+		fsl,pins = <
+			MX7D_PAD_LPSR_GPIO1_IO05__GPIO1_IO5	0x14
+		>;
+	};
+
+	pinctrl_wdog: wdoggrp {
+		fsl,pins = <
+			MX7D_PAD_LPSR_GPIO1_IO00__WDOG1_WDOG_B	0x74
+		>;
+	};
+};
+
+&wdog1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_wdog>;
+	fsl,ext-reset-output;
+	status = "okay";
 };
