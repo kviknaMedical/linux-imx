@@ -239,7 +239,6 @@
 
 	pinctrl_hog_1: hoggrp-1 {
 		fsl,pins = <
-			MX7D_PAD_GPIO1_IO14__GPIO1_IO14		0x80000000	/* bt reg on */
 			MX7D_PAD_SD2_RESET_B__GPIO5_IO11	0x59		/* ethphy0 reset */
 			MX7D_PAD_UART2_TX_DATA__GPIO4_IO3	0x59		/* ethphy1 reset */
 			MX7D_PAD_GPIO1_IO12__GPIO1_IO12		0x59		/* GAUGE_GPOUT */
@@ -252,7 +251,6 @@
 			MX7D_PAD_EPDC_BDR0__GPIO2_IO28		0x14		/* SOM pin 73 */
 			MX7D_PAD_EPDC_BDR1__GPIO2_IO29		0x59		/* SOM pin 75 */
 			MX7D_PAD_SD1_WP__GPIO5_IO1		0x59		/* SOM pin 163 */
-			MX7D_PAD_I2C4_SDA__GPIO4_IO15		0x14		/* CHARGER_CE */
 			MX7D_PAD_GPIO1_IO11__GPIO1_IO11		0x59		/* ADAPTER_n */
 			MX7D_PAD_LCD_DATA22__GPIO3_IO27		0x59		/* SOM pin 20 */
 			MX7D_PAD_EPDC_DATA01__GPIO2_IO1		0x14		/* FPGA_USB_RST_n */
@@ -326,7 +324,7 @@
 
 &iomuxc_lpsr {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_hog_2 &pinctrl_wdog>;
+	pinctrl-0 = <&pinctrl_hog_2>;
 
 	pinctrl_hog_2: hoggrp-2 {
 		fsl,pins = <
