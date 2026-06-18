@@ -346,7 +346,8 @@ static void pca9532_destroy_devices(struct pca9532_data *data, int n_devs)
 static int pca9532_configure(struct i2c_client *client,
 	struct pca9532_data *data, struct pca9532_platform_data *pdata)
 {
-	int i, err = 0;
+	int i = 0;
+	int err = 0;
 	int gpios = 0;
 	u8 maxleds = data->chip_info->num_leds;
 
