@@ -1411,6 +1411,12 @@ static struct inode *ext4_alloc_inode(struct super_block *sb)
 		return NULL;
 
 	inode_set_iversion(&ei->vfs_inode, 1);
+#if (BITS_PER_LONG < 64)
+	/*
+		ext4_inode_info.i_state_flags was not cleared on inode allocation/reuse on 32-bit ARM, causing stale EXT4_STATE_ORPHAN_FILE state and false “inode tracked as orphan” warnings during ext4 unmount.
+	 */
+	ei->i_state_flags = 0;
+#endif
 	ei->i_flags = 0;
 	spin_lock_init(&ei->i_raw_lock);
 	ei->i_prealloc_node = RB_ROOT;
