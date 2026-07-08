@@ -259,18 +259,6 @@
 	>;
 };
 
-/*
- * Battery charger enable.
- */
-&gpio4 {
-	charger_ce_hog {
-		gpio-hog;
-		gpios = <15 GPIO_ACTIVE_LOW>;
-		output-high;
-		line-name = "CHARGER_CE";
-	};
-};
-
 &iomuxc {
 
 	pinctrl-names = "default";
