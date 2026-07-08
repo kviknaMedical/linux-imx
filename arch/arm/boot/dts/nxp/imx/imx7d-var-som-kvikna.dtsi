@@ -259,6 +259,18 @@
 	>;
 };
 
+/*
+ * Battery charger enable.
+ */
+&gpio4 {
+	charger_ce_hog {
+		gpio-hog;
+		gpios = <15 GPIO_ACTIVE_LOW>;
+		output-high;
+		line-name = "CHARGER_CE";
+	};
+};
+
 &iomuxc {
 
 	pinctrl-names = "default";
@@ -287,6 +299,7 @@
 			MX7D_PAD_EPDC_DATA05__GPIO2_IO5		0x59		/* PB_IN */
 			MX7D_PAD_LCD_DATA21__GPIO3_IO26		0x59		/* BRACKET_n */
 			MX7D_PAD_LCD_DATA20__GPIO3_IO25		0x59		/* SRESET_n */
+			MX7D_PAD_I2C4_SDA__GPIO4_IO15		0x14		/* CHARGER_CE */
 		>;
 	};
 
@@ -315,8 +328,8 @@
 
 	pinctrl_uart5: uart5grp {
 		fsl,pins = <
-			MX7D_PAD_SAI1_RX_DATA__UART5_DCE_RX	0x79
-			MX7D_PAD_I2C4_SDA__UART5_DCE_TX		0x79
+			/* XPOD_DIN: RX-only serial input on SoM pin 175. */
+			MX7D_PAD_I2C4_SCL__UART5_DCE_RX	0x79
 		>;
 	};
 
