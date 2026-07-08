@@ -259,6 +259,21 @@
 	>;
 };
 
+/*
+ * Battery charger enable.
+ * /CHARGER_CE is active-low.  Using GPIO_ACTIVE_LOW + output-high
+ * drives the physical pin low, equivalent to:
+ *   gpioset -c gpiochip3 -l 15=active
+ */
+&gpio4 {
+	charger_ce_hog {
+		gpio-hog;
+		gpios = <15 GPIO_ACTIVE_LOW>;
+		output-high;
+		line-name = "CHARGER_CE";
+	};
+};
+
 &iomuxc {
 
 	pinctrl-names = "default";
